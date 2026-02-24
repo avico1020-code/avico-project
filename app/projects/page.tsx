@@ -1,9 +1,9 @@
 import { TopBar } from "@/components/TopBar";
-import { OpenProjectsPanel } from "@/components/OpenProjectsPanel";
+import { ProjectList } from "@/components/ProjectList";
 
 const cream = "#FFFDF7";
 
-export default function Home() {
+export default function AllProjectsPage() {
   return (
     <div
       className="min-h-screen p-8"
@@ -12,12 +12,12 @@ export default function Home() {
       <TopBar />
 
       <h1 className="text-4xl font-bold text-black text-center w-full pt-6">
-        Dashboard
+        כל הפרויקטים
       </h1>
 
-      <main className="w-full pt-8 pr-[calc(30vw+1rem)] flex flex-col items-center" />
-
-      <OpenProjectsPanel />
+      <main className="w-full pt-8 flex flex-col items-start ps-4">
+        <ProjectList />
+      </main>
     </div>
   );
 }
