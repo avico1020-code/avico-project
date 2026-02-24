@@ -11,7 +11,7 @@ import { Save } from "lucide-react";
 
 type FieldKey = "coordinationNumber" | "planNumber" | "quoteNumber";
 
-const rowClass = "flex flex-col gap-2 w-auto";
+const rowClass = "flex flex-row items-center gap-2 w-full flex-wrap";
 
 interface ProjectFieldRowProps {
   projectId: Id<"projects">;
@@ -49,35 +49,31 @@ export function ProjectFieldRow({ projectId, label, fieldKey, initialValue }: Pr
 
   return (
     <div className={rowClass}>
-      <div className="flex flex-col gap-1">
-        <Label htmlFor={fieldKey} className="text-black font-medium">
-          {label}
-        </Label>
-        <div className="flex items-center gap-2">
-          <Input
-            id={fieldKey}
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            className="rounded-2xl border-2 border-black bg-transparent text-black w-[16ch]"
-            dir="rtl"
-          />
-          <Button
-            type="button"
-            onClick={handleSave}
-            disabled={saving}
-            className={`rounded-2xl border-2 border-black px-3 py-2 flex items-center justify-center ${
-              isDirty
-                ? "bg-orange-400 hover:bg-orange-500 text-black"
-                : "bg-gray-300 hover:bg-gray-400 text-black"
-            }`}
-          >
-            <Save className="w-4 h-4" aria-hidden />
-            <span className="sr-only">שמור</span>
-          </Button>
-        </div>
-      </div>
+      <Label htmlFor={fieldKey} className="text-black font-medium shrink-0 w-[7.5rem] text-right">
+        {label}
+      </Label>
+      <Input
+        id={fieldKey}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        className="rounded-2xl border-2 border-black bg-transparent text-black flex-1 min-w-0"
+        dir="rtl"
+      />
+      <Button
+        type="button"
+        onClick={handleSave}
+        disabled={saving}
+        className={`rounded-2xl border-2 border-black px-3 py-2 flex items-center justify-center shrink-0 ${
+          isDirty
+            ? "bg-orange-400 hover:bg-orange-500 text-black"
+            : "bg-gray-300 hover:bg-gray-400 text-black"
+        }`}
+      >
+        <Save className="w-4 h-4" aria-hidden />
+        <span className="sr-only">שמור</span>
+      </Button>
       {error && (
-        <p className="text-red-600 text-sm" role="alert">
+        <p className="text-red-600 text-sm w-full basis-full" role="alert">
           {error}
         </p>
       )}

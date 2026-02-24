@@ -50,7 +50,7 @@ export function ProjectSidePanel({ projectId }: ProjectSidePanelProps) {
 
   return (
     <aside
-      className="fixed right-4 top-[10.5rem] w-[30vw] min-w-[220px] max-w-[380px] h-[30vh] rounded-2xl border-2 border-black p-5 flex flex-col overflow-hidden"
+      className="w-full h-[30vh] rounded-2xl border-2 border-black p-5 flex flex-col overflow-hidden shrink-0"
       style={{ backgroundColor: cream }}
       aria-label="תיאור הפרויקט"
     >

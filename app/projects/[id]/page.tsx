@@ -1,5 +1,8 @@
 import { TopBar } from "@/components/TopBar";
 import { ProjectDetails } from "@/components/ProjectDetails";
+import { ProjectFieldsPanel } from "@/components/ProjectFieldsPanel";
+import { ProjectLinksPanel } from "@/components/ProjectLinksPanel";
+import { ProjectNavAndContent } from "@/components/ProjectNavAndContent";
 import { ProjectSidePanel } from "@/components/ProjectSidePanel";
 import type { Id } from "@/convex/_generated/dataModel";
 import { auth } from "@clerk/nextjs/server";
@@ -35,7 +38,12 @@ export default async function ProjectPage(props: ProjectPageProps) {
     >
       <TopBar />
       <ProjectDetails projectId={projectId} />
-      <ProjectSidePanel projectId={projectId} />
+      <ProjectNavAndContent projectId={projectId} />
+      <div className="fixed right-4 top-[10.5rem] w-[30vw] flex flex-col gap-4">
+        <ProjectFieldsPanel projectId={projectId} />
+        <ProjectSidePanel projectId={projectId} />
+        <ProjectLinksPanel projectId={projectId} />
+      </div>
     </div>
   );
 }

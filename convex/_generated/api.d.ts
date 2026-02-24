@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as projectContacts from "../projectContacts.js";
 import type * as projectLinks from "../projectLinks.js";
 import type * as projects from "../projects.js";
 import type * as users from "../users.js";
@@ -27,6 +28,7 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  projectContacts: typeof projectContacts;
   projectLinks: typeof projectLinks;
   projects: typeof projects;
   users: typeof users;
