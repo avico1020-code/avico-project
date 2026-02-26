@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Id } from "@/convex/_generated/dataModel";
+import { ProjectArrangementsContent } from "@/components/ProjectArrangementsContent";
 import { ProjectContactsContent } from "@/components/ProjectContactsContent";
 
 const cream = "#FFFDF7";
@@ -46,7 +47,9 @@ export function ProjectNavAndContent({ projectId }: ProjectNavAndContentProps) {
         style={{ backgroundColor: cream }}
         aria-live="polite"
       >
-        {selectedTab === "contacts" ? (
+        {selectedTab === "arrangements" ? (
+          <ProjectArrangementsContent projectId={projectId} />
+        ) : selectedTab === "contacts" ? (
           <ProjectContactsContent projectId={projectId} />
         ) : selectedTab ? (
           <p className="text-black/80 text-lg text-center w-full text-center">

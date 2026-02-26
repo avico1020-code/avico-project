@@ -8,6 +8,8 @@
  * @module
  */
 
+import type * as arrangementChecklistAnswers from "../arrangementChecklistAnswers.js";
+import type * as projectArrangements from "../projectArrangements.js";
 import type * as projectContacts from "../projectContacts.js";
 import type * as projectLinks from "../projectLinks.js";
 import type * as projects from "../projects.js";
@@ -28,6 +30,8 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  arrangementChecklistAnswers: typeof arrangementChecklistAnswers;
+  projectArrangements: typeof projectArrangements;
   projectContacts: typeof projectContacts;
   projectLinks: typeof projectLinks;
   projects: typeof projects;

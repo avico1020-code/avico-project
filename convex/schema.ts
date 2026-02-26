@@ -31,6 +31,24 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_project_id", ["projectId"]),
 
+  projectArrangements: defineTable({
+    projectId: v.id("projects"),
+    type: v.string(),
+    notes: v.optional(v.string()),
+    clerkId: v.string(),
+    createdAt: v.number(),
+  }).index("by_project_id", ["projectId"]),
+
+  arrangementChecklistAnswers: defineTable({
+    arrangementId: v.id("projectArrangements"),
+    questionKey: v.string(),
+    answer: v.string(),
+    clerkId: v.string(),
+    updatedAt: v.number(),
+  })
+    .index("by_arrangement_id", ["arrangementId"])
+    .index("by_arrangement_and_question", ["arrangementId", "questionKey"]),
+
   users: defineTable({
     clerkId: v.string(),
     email: v.string(),
