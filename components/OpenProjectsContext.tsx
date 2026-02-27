@@ -4,29 +4,41 @@ import {
   createContext,
   useCallback,
   useContext,
-  useState,
   type ReactNode,
 } from "react";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 
 type OpenProjectsContextValue = {
   openIds: Id<"projects">[];
-  addOpen: (id: Id<"projects">) => void;
-  removeOpen: (id: Id<"projects">) => void;
+  addOpen: (id: Id<"projects">) => Promise<void>;
+  removeOpen: (id: Id<"projects">) => Promise<void>;
 };
 
 const OpenProjectsContext = createContext<OpenProjectsContextValue | null>(null);
 
 export function OpenProjectsProvider({ children }: { children: ReactNode }) {
-  const [openIds, setOpenIds] = useState<Id<"projects">[]>([]);
+  const openProjects = useQuery(api.projectOpenProjects.listForUser, {});
+  const addMutation = useMutation(api.projectOpenProjects.add);
+  const removeMutation = useMutation(api.projectOpenProjects.remove);
 
-  const addOpen = useCallback((id: Id<"projects">) => {
-    setOpenIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
-  }, []);
+  const openIds: Id<"projects">[] =
+    openProjects?.map((row) => row.projectId as Id<"projects">) ?? [];
 
-  const removeOpen = useCallback((id: Id<"projects">) => {
-    setOpenIds((prev) => prev.filter((x) => x !== id));
-  }, []);
+  const addOpen = useCallback(
+    async (id: Id<"projects">) => {
+      await addMutation({ projectId: id });
+    },
+    [addMutation]
+  );
+
+  const removeOpen = useCallback(
+    async (id: Id<"projects">) => {
+      await removeMutation({ projectId: id });
+    },
+    [removeMutation]
+  );
 
   return (
     <OpenProjectsContext.Provider value={{ openIds, addOpen, removeOpen }}>

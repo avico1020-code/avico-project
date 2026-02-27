@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * תכנון ההסדרים לפרויקט – תקף לכל הפרויקטים באפליקציה.
+ * כל פרויקט מקבל את אותו ממשק (הסדרים, נקודות חשובות, צ'ק-ליסטים) והנתונים נשמרים לפי projectId.
+ */
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -329,6 +334,7 @@ export function ProjectArrangementsContent({ projectId }: ProjectArrangementsCon
   const addArrangement = useMutation(api.projectArrangements.add);
   const removeArrangement = useMutation(api.projectArrangements.remove);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isEditingMode, setIsEditingMode] = useState(false);
   const [editingId, setEditingId] = useState<Id<"projectArrangements"> | null>(null);
   const [selectedArrangementId, setSelectedArrangementId] = useState<Id<"projectArrangements"> | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -352,13 +358,22 @@ export function ProjectArrangementsContent({ projectId }: ProjectArrangementsCon
     [updateNotesMutation]
   );
 
-  const handleSelect = async (type: string) => {
-    await addArrangement({ projectId, type });
-    setDropdownOpen(false);
-  };
-
   return (
     <div className="w-full flex flex-col flex-1 min-h-0 items-start">
+      {/* כפתור עריכת הסדרים – מדליק/מכבה מצב עריכה שבו מופיעים כפתורי עריכה ומחיקה מעל כל הסדר */}
+      {arrangements && arrangements.length > 0 && (
+        <div className="mb-3">
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => setIsEditingMode((prev) => !prev)}
+            className="rounded-2xl border-2 border-black bg-transparent text-black font-medium px-5 py-2.5 hover:bg-black/5 transition-colors"
+          >
+            {isEditingMode ? "סיום עריכת הסדרים" : "עריכת הסדרים"}
+          </Button>
+        </div>
+      )}
+
       {/* שורה: ההסדר הראשון שנוסף ראשון, אחריו בהמשך הטור, סרגל הבחירה תמיד בסוף הטור */}
       <div className="flex flex-row flex-wrap gap-3 items-center w-full shrink-0">
         {/* ההסדרים לפי סדר הוספה (ראשון שנוסף = ראשון ברשימה) */}
@@ -381,14 +396,16 @@ export function ProjectArrangementsContent({ projectId }: ProjectArrangementsCon
                     }
                   }}
                   className="rounded-2xl border-2 border-black bg-transparent text-black font-medium px-4 py-2.5 hover:bg-black/5 transition-colors cursor-pointer inline-flex justify-center items-center text-center min-w-0"
-                  aria-label={`${arr.type}, לחץ לצפייה בתוכן`}
+                  aria-label={`${arr.label ?? arr.type}, לחץ לצפייה בתוכן`}
                 >
-                  <span>{arr.type}</span>
+                  <span>{arr.label ?? arr.type}</span>
                 </div>
 
-                {/* כפתורי עריכה ומחיקה מרחפים מעל הכפתור (מופיעים ב-hover) */}
+                {/* כפתורי עריכה ומחיקה – מופיעים רק במצב עריכת הסדרים */}
                 <div
-                  className="absolute top-0 end-0 -translate-y-1/2 translate-x-1/2 z-10 flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto"
+                  className={`absolute top-0 end-0 -translate-y-1/2 translate-x-1/2 z-10 flex items-center gap-0.5 transition-opacity ${
+                    isEditingMode ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+                  }`}
                   aria-hidden
                 >
                   <button
@@ -445,7 +462,10 @@ export function ProjectArrangementsContent({ projectId }: ProjectArrangementsCon
                   type="button"
                   role="option"
                   className="w-full text-right px-4 py-2 hover:bg-black/5 text-black font-medium"
-                  onClick={() => handleSelect(type)}
+                  onClick={async () => {
+                    await addArrangement({ projectId, type });
+                    setDropdownOpen(false);
+                  }}
                 >
                   {type}
                 </button>
@@ -496,9 +516,13 @@ export function ProjectArrangementsContent({ projectId }: ProjectArrangementsCon
 
       <EditArrangementModal
         arrangementId={editingId}
-        currentType={
+        currentLabel={
           editingId && arrangements
-            ? (arrangements.find((a) => a._id === editingId)?.type ?? "")
+            ? (
+                arrangements.find((a) => a._id === editingId)?.label ??
+                arrangements.find((a) => a._id === editingId)?.type ??
+                ""
+              )
             : ""
         }
         open={editingId !== null}

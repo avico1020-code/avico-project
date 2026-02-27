@@ -14,7 +14,7 @@ const btnIconClass =
 export function ProjectList() {
   const projects = useQuery(api.projects.list);
   const removeProject = useMutation(api.projects.remove);
-  const { addOpen } = useOpenProjects();
+  const { addOpen, openIds } = useOpenProjects();
 
   if (projects === undefined) {
     return <p className="text-black/70">טוען...</p>;
@@ -50,12 +50,16 @@ export function ProjectList() {
             </Link>
             <button
               type="button"
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                addOpen(project._id);
+                await addOpen(project._id);
               }}
-              className={btnIconClass}
+              className={`${btnIconClass} ${
+                openIds.includes(project._id as any)
+                  ? "bg-orange-300 hover:bg-orange-400"
+                  : ""
+              }`}
               aria-label="הוסף לפרויקטים פתוחים"
             >
               <Plus className="size-5" aria-hidden />

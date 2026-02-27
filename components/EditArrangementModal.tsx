@@ -16,38 +16,30 @@ const cream = "#FFFDF7";
 const btnClass =
   "rounded-2xl border-2 border-black bg-transparent text-black font-medium px-5 py-2.5 hover:bg-black/5 transition-colors";
 
-const ARRANGEMENT_OPTIONS = [
-  "הריסה",
-  "חפירה ודיפון",
-  "בנייה",
-  "חסימה הרמטית",
-  "חסימת נתיב",
-];
-
 interface EditArrangementModalProps {
   arrangementId: Id<"projectArrangements"> | null;
-  currentType: string;
+  currentLabel: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 export function EditArrangementModal({
   arrangementId,
-  currentType,
+  currentLabel,
   open,
   onOpenChange,
 }: EditArrangementModalProps) {
   const updateArrangement = useMutation(api.projectArrangements.update);
-  const [selectedType, setSelectedType] = useState(currentType);
+  const [label, setLabel] = useState(currentLabel);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (open) {
-      setSelectedType(currentType);
+      setLabel(currentLabel);
       setError("");
     }
-  }, [open, currentType]);
+  }, [open, currentLabel]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,7 +47,7 @@ export function EditArrangementModal({
     setError("");
     setSaving(true);
     try {
-      await updateArrangement({ id: arrangementId, type: selectedType });
+      await updateArrangement({ id: arrangementId, label });
       onOpenChange(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "אירעה שגיאה");
@@ -79,21 +71,17 @@ export function EditArrangementModal({
           </p>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            {ARRANGEMENT_OPTIONS.map((type) => (
-              <label key={type} className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name="arrangementType"
-                  value={type}
-                  checked={selectedType === type}
-                  onChange={() => setSelectedType(type)}
-                  className="rounded border-2 border-black"
-                />
-                <span className="text-black font-medium">{type}</span>
-              </label>
-            ))}
-          </div>
+          <label className="flex flex-col gap-2 text-right">
+            <span className="text-black font-medium text-sm">שם הכפתור</span>
+            <input
+              type="text"
+              value={label}
+              onChange={(e) => setLabel(e.target.value)}
+              className="rounded-2xl border-2 border-black bg-white text-black font-medium px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black/20"
+              dir="rtl"
+              placeholder="לדוגמה: הריסה א'"
+            />
+          </label>
           {error && (
             <p className="text-red-600 text-sm" role="alert">
               {error}

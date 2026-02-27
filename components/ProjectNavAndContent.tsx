@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { Id } from "@/convex/_generated/dataModel";
 import { ProjectArrangementsContent } from "@/components/ProjectArrangementsContent";
 import { ProjectContactsContent } from "@/components/ProjectContactsContent";
+import { ProjectJournalContent } from "@/components/ProjectJournalContent";
 
 const cream = "#FFFDF7";
 const btnClass =
@@ -49,6 +50,8 @@ export function ProjectNavAndContent({ projectId }: ProjectNavAndContentProps) {
       >
         {selectedTab === "arrangements" ? (
           <ProjectArrangementsContent projectId={projectId} />
+        ) : selectedTab === "calendar" ? (
+          <ProjectJournalContent projectId={projectId} />
         ) : selectedTab === "contacts" ? (
           <ProjectContactsContent projectId={projectId} />
         ) : selectedTab ? (

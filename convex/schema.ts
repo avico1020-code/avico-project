@@ -34,6 +34,8 @@ export default defineSchema({
   projectArrangements: defineTable({
     projectId: v.id("projects"),
     type: v.string(),
+    // כותרת הכפתור כפי שמוצגת בממשק (למשל "הריסה א'")
+    label: v.optional(v.string()),
     notes: v.optional(v.string()),
     clerkId: v.string(),
     createdAt: v.number(),
@@ -48,6 +50,33 @@ export default defineSchema({
   })
     .index("by_arrangement_id", ["arrangementId"])
     .index("by_arrangement_and_question", ["arrangementId", "questionKey"]),
+
+  projectJournalEntries: defineTable({
+    projectId: v.id("projects"),
+    text: v.string(),
+    clerkId: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_project_id", ["projectId"])
+    .index("by_project_created", ["projectId", "createdAt"]),
+
+  projectStatusEntries: defineTable({
+    projectId: v.id("projects"),
+    status: v.string(),
+    text: v.string(),
+    clerkId: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_project_id", ["projectId"])
+    .index("by_project_created", ["projectId", "createdAt"]),
+
+  projectOpenProjects: defineTable({
+    projectId: v.id("projects"),
+    clerkId: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_clerk_id", ["clerkId"])
+    .index("by_clerk_project", ["clerkId", "projectId"]),
 
   users: defineTable({
     clerkId: v.string(),

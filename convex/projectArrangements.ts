@@ -41,6 +41,7 @@ export const add = mutation({
     return await ctx.db.insert("projectArrangements", {
       projectId,
       type,
+      label: type,
       clerkId: identity.subject,
       createdAt: Date.now(),
     });
@@ -50,9 +51,9 @@ export const add = mutation({
 export const update = mutation({
   args: {
     id: v.id("projectArrangements"),
-    type: v.string(),
+    label: v.string(),
   },
-  handler: async (ctx, { id, type }) => {
+  handler: async (ctx, { id, label }) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Not authenticated");
 
@@ -61,11 +62,12 @@ export const update = mutation({
       throw new Error("Arrangement not found or access denied");
     }
 
-    if (!VALID_TYPES.includes(type)) {
-      throw new Error("Invalid arrangement type");
+    const trimmed = label.trim();
+    if (!trimmed) {
+      throw new Error("Label cannot be empty");
     }
 
-    await ctx.db.patch(id, { type });
+    await ctx.db.patch(id, { label: trimmed });
   },
 });
 

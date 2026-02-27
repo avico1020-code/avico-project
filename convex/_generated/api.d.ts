@@ -11,7 +11,10 @@
 import type * as arrangementChecklistAnswers from "../arrangementChecklistAnswers.js";
 import type * as projectArrangements from "../projectArrangements.js";
 import type * as projectContacts from "../projectContacts.js";
+import type * as projectJournal from "../projectJournal.js";
 import type * as projectLinks from "../projectLinks.js";
+import type * as projectOpenProjects from "../projectOpenProjects.js";
+import type * as projectStatus from "../projectStatus.js";
 import type * as projects from "../projects.js";
 import type * as users from "../users.js";
 
@@ -33,7 +36,10 @@ declare const fullApi: ApiFromModules<{
   arrangementChecklistAnswers: typeof arrangementChecklistAnswers;
   projectArrangements: typeof projectArrangements;
   projectContacts: typeof projectContacts;
+  projectJournal: typeof projectJournal;
   projectLinks: typeof projectLinks;
+  projectOpenProjects: typeof projectOpenProjects;
+  projectStatus: typeof projectStatus;
   projects: typeof projects;
   users: typeof users;
 }>;
