@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import type { Id } from "@/convex/_generated/dataModel";
-import { useQuery, useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useMutation, useQuery } from "convex/react";
 import { Save } from "lucide-react";
+import { useState } from "react";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 
 const cream = "#FFFDF7";
 const btnClass =
@@ -54,9 +54,7 @@ export function ProjectSidePanel({ projectId }: ProjectSidePanelProps) {
       style={{ backgroundColor: cream }}
       aria-label="תיאור הפרויקט"
     >
-      <h2 className="text-xl font-semibold text-black mb-4 text-center shrink-0">
-        תיאור הפרויקט
-      </h2>
+      <h2 className="text-xl font-semibold text-black mb-4 text-center shrink-0">תיאור הפרויקט</h2>
 
       {project === undefined ? (
         <p className="text-black/70 text-sm">טוען...</p>
@@ -76,14 +74,10 @@ export function ProjectSidePanel({ projectId }: ProjectSidePanelProps) {
               disabled={saving}
               className={`${btnClass} px-3 py-2`}
             >
-              <Save className="w-4 h-4" aria-hidden />
+              <Save className="w-4 h-4" aria-hidden={true} />
               {saving ? "שומר..." : "שמור"}
             </button>
-            <button
-              type="button"
-              onClick={handleCancel}
-              className={btnClass}
-            >
+            <button type="button" onClick={handleCancel} className={btnClass}>
               ביטול
             </button>
           </div>
@@ -93,20 +87,12 @@ export function ProjectSidePanel({ projectId }: ProjectSidePanelProps) {
           <p className="text-black/80 text-sm flex-1 overflow-auto whitespace-pre-wrap break-words">
             {project.description}
           </p>
-          <button
-            type="button"
-            onClick={handleStartEdit}
-            className={`${btnClass} shrink-0 mt-2`}
-          >
+          <button type="button" onClick={handleStartEdit} className={`${btnClass} shrink-0 mt-2`}>
             עריכה
           </button>
         </>
       ) : (
-        <button
-          type="button"
-          onClick={handleStartAdd}
-          className={`${btnClass} shrink-0`}
-        >
+        <button type="button" onClick={handleStartAdd} className={`${btnClass} shrink-0`}>
           הוסף תיאור
         </button>
       )}

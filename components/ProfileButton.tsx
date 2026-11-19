@@ -42,10 +42,8 @@ export default function ProfileButton() {
               className={buttonClass}
               aria-label="תפריט פרופיל"
             >
-              <User className="w-5 h-5" aria-hidden />
-              <span>
-                {user.firstName || user.emailAddresses[0]?.emailAddress.split("@")[0]}
-              </span>
+              <User className="w-5 h-5" aria-hidden={true} />
+              <span>{user.firstName || user.emailAddresses[0]?.emailAddress.split("@")[0]}</span>
             </Button>
             {isOpen && (
               <div className="absolute top-full mt-2 end-0 min-w-[12rem] rounded-2xl border-2 border-black bg-[#FFFDF7] shadow-lg p-2">
@@ -62,7 +60,7 @@ export default function ProfileButton() {
                   onClick={handleSignOut}
                   className={`w-full justify-start ${buttonClass} rounded-xl border-red-600 text-red-700 hover:bg-red-50`}
                 >
-                  <LogOut className="w-4 h-4" aria-hidden />
+                  <LogOut className="w-4 h-4" aria-hidden={true} />
                   <span className="text-sm font-medium">התנתק</span>
                 </Button>
               </div>

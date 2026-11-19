@@ -1,19 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useMutation, useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
-import { useQuery, useMutation } from "convex/react";
+import { useState } from "react";
+import { useOpenProjects } from "@/components/OpenProjectsContext";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
-import { useOpenProjects } from "@/components/OpenProjectsContext";
 
 const cream = "#FFFDF7";
-const STATUS_OPTIONS = [
-  "משימות",
-  "ממתין לוועדה",
-  "תיקונים לאחר וועדה",
-  "התקבל פרוטוקול",
-] as const;
+const STATUS_OPTIONS = ["משימות", "ממתין לוועדה", "תיקונים לאחר וועדה", "התקבל פרוטוקול"] as const;
 
 function formatStatusDate(ts: number): string {
   return new Date(ts).toLocaleDateString("he-IL", {
@@ -27,13 +22,11 @@ export function OpenProjectsPanel() {
   const router = useRouter();
   const { openIds, removeOpen } = useOpenProjects();
   const projects = useQuery(api.projects.list);
-  const openProjects = projects
-    ? projects.filter((p) => openIds.includes(p._id))
-    : [];
+  const openProjects = projects ? projects.filter((p) => openIds.includes(p._id)) : [];
 
   const [selectedProjectId, setSelectedProjectId] = useState<Id<"projects"> | null>(null);
   const selectedProject = selectedProjectId
-    ? openProjects.find((p) => p._id === selectedProjectId) ?? null
+    ? (openProjects.find((p) => p._id === selectedProjectId) ?? null)
     : null;
 
   const statusEntries = useQuery(
@@ -72,14 +65,15 @@ export function OpenProjectsPanel() {
   return (
     <>
       <aside
-        className="fixed right-4 top-[10.5rem] bottom-4 w-[30vw] min-w-[220px] max-w-[380px] rounded-2xl border-2 border-black p-5 flex flex-col overflow-hidden"
-        style={{ backgroundColor: cream }}
+        className="fixed top-[10.5rem] bottom-4 w-[30vw] min-w-[220px] max-w-[380px] rounded-2xl border-2 border-black p-5 flex flex-col overflow-hidden"
+        style={{
+          backgroundColor: cream,
+          right: "calc(min(30vw, 380px) + 2rem)",
+        }}
         aria-label="פרויקטים פתוחים"
       >
         <div className="mb-4 flex flex-row items-center justify-between gap-2 shrink-0">
-          <h2 className="text-xl font-semibold text-black">
-            פרויקטים פתוחים
-          </h2>
+          <h2 className="text-xl font-semibold text-black">פרויקטים פתוחים</h2>
           <button
             type="button"
             className="rounded-2xl border-2 border-black bg-transparent text-black text-sm font-medium px-3 py-1.5 hover:bg-black/5 transition-colors"
@@ -94,9 +88,7 @@ export function OpenProjectsPanel() {
             openProjects.map((project) => {
               const isSelected = selectedProjectId === project._id;
               const latestStatus =
-                isSelected && statusEntries && statusEntries.length > 0
-                  ? statusEntries[0]
-                  : null;
+                isSelected && statusEntries && statusEntries.length > 0 ? statusEntries[0] : null;
 
               const statusBgClass =
                 latestStatus?.status === "משימות"
@@ -160,7 +152,7 @@ export function OpenProjectsPanel() {
       {selectedProject && (
         <div
           className="fixed top-[10.5rem] bottom-4 rounded-2xl border-2 border-black p-5 flex flex-col w-[28vw] min-w-[220px] max-w-[420px] bg-white/95"
-          style={{ right: "calc(30vw + 2.5rem)" }}
+          style={{ right: "calc(2 * min(30vw, 380px) + 3.5rem)" }}
           aria-label={`פופ-אפ עבור הפרויקט ${selectedProject.name}`}
         >
           <div className="flex flex-row items-center justify-between gap-2 mb-4">
@@ -203,23 +195,23 @@ export function OpenProjectsPanel() {
               >
                 {selectedStatus ?? "בחר סטטוס"}
               </button>
-            {statusDropdownOpen && (
-              <div className="absolute top-full mt-2 w-full rounded-2xl border-2 border-black bg-white shadow-lg py-1 z-10">
-                {STATUS_OPTIONS.map((opt) => (
-                  <button
-                    key={opt}
-                    type="button"
-                    onClick={() => {
-                      setSelectedStatus(opt);
-                      setStatusDropdownOpen(false);
-                    }}
-                    className="w-full text-right px-4 py-2 text-sm hover:bg-black/5 text-black"
-                  >
-                    {opt}
-                  </button>
-                ))}
-              </div>
-            )}
+              {statusDropdownOpen && (
+                <div className="absolute top-full mt-2 w-full rounded-2xl border-2 border-black bg-white shadow-lg py-1 z-10">
+                  {STATUS_OPTIONS.map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => {
+                        setSelectedStatus(opt);
+                        setStatusDropdownOpen(false);
+                      }}
+                      className="w-full text-right px-4 py-2 text-sm hover:bg-black/5 text-black"
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             {/* כפתור עריכה לסטטוסים (לצד בחירת הסטטוס) */}
             <button

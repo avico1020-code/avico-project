@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { Home as HomeIcon } from "lucide-react";
-import { getTodayFormatted } from "@/lib/utils";
+import Link from "next/link";
 import { NewProjectTrigger } from "@/components/NewProjectTrigger";
+import { getTodayFormatted } from "@/lib/utils";
 
 const cream = "#FFFDF7";
 const btnClass =
@@ -26,7 +26,7 @@ export function TopBar() {
             className="rounded-2xl border-2 border-black bg-transparent text-black font-medium p-2.5 hover:bg-black/5 transition-colors inline-flex items-center justify-center size-12 shrink-0"
             aria-label="דף הבית"
           >
-            <HomeIcon className="size-6" aria-hidden />
+            <HomeIcon className="size-6" aria-hidden={true} />
           </Link>
           <Link href="/projects" className={btnClass}>
             כל הפרויקטים

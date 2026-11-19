@@ -1,11 +1,12 @@
 "use client";
 
+import { useMutation, useQuery } from "convex/react";
+import { Mail, Phone, User } from "lucide-react";
 import { useState } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { AddContactModal } from "@/components/AddContactModal";
+import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
-import { Button } from "@/components/ui/button";
-import { AddContactModal } from "@/components/AddContactModal";
 
 interface ProjectContactsContentProps {
   projectId: Id<"projects">;
@@ -34,17 +35,29 @@ export function ProjectContactsContent({ projectId }: ProjectContactsContentProp
         </Button>
       )}
 
-      {/* רשימת אנשי קשר בפריסה טורית – רק ערכים, ברורים וקריאים */}
+      {/* רשימת אנשי קשר בפריסה טורית – עם אייקונים לשם, טלפון ומייל */}
       {contacts && contacts.length > 0 && (
         <div className="flex flex-col gap-3 w-full text-base text-black font-semibold">
           {contacts.map((contact) => (
-            <div
-              key={contact._id}
-              className="flex flex-row flex-wrap gap-6 items-center"
-            >
-              {contact.name && <span>{contact.name}</span>}
-              {contact.phone && <span>{contact.phone}</span>}
-              {contact.email && <span>{contact.email}</span>}
+            <div key={contact._id} className="flex flex-row flex-wrap gap-6 items-center">
+              {contact.name && (
+                <span className="flex flex-row items-center gap-1.5">
+                  <User className="w-4 h-4" aria-hidden={true} />
+                  <span>{contact.name}</span>
+                </span>
+              )}
+              {contact.phone && (
+                <span className="flex flex-row items-center gap-1.5">
+                  <Phone className="w-4 h-4" aria-hidden={true} />
+                  <span>{contact.phone}</span>
+                </span>
+              )}
+              {contact.email && (
+                <span className="flex flex-row items-center gap-1.5">
+                  <Mail className="w-4 h-4" aria-hidden={true} />
+                  <span>{contact.email}</span>
+                </span>
+              )}
               <div className="flex flex-row gap-2 ml-auto">
                 <Button
                   type="button"
@@ -99,13 +112,8 @@ export function ProjectContactsContent({ projectId }: ProjectContactsContentProp
           }
           setOpen(next);
         }}
-        contact={
-          editingId && contacts
-            ? (contacts.find((c) => c._id === editingId) ?? null)
-            : null
-        }
+        contact={editingId && contacts ? (contacts.find((c) => c._id === editingId) ?? null) : null}
       />
     </div>
   );
 }
-

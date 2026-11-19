@@ -1,7 +1,7 @@
 "use client";
 
 import { useClerk, useUser } from "@clerk/nextjs";
-import { LogOut, User, Home } from "lucide-react";
+import { Home, LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import SignInModal from "@/components/SignInModal";

@@ -9,6 +9,7 @@
  */
 
 import type * as arrangementChecklistAnswers from "../arrangementChecklistAnswers.js";
+import type * as notebookTasks from "../notebookTasks.js";
 import type * as projectArrangements from "../projectArrangements.js";
 import type * as projectContacts from "../projectContacts.js";
 import type * as projectJournal from "../projectJournal.js";
@@ -34,6 +35,7 @@ import type {
  */
 declare const fullApi: ApiFromModules<{
   arrangementChecklistAnswers: typeof arrangementChecklistAnswers;
+  notebookTasks: typeof notebookTasks;
   projectArrangements: typeof projectArrangements;
   projectContacts: typeof projectContacts;
   projectJournal: typeof projectJournal;

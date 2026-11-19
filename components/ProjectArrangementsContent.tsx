@@ -5,22 +5,16 @@
  * כל פרויקט מקבל את אותו ממשק (הסדרים, נקודות חשובות, צ'ק-ליסטים) והנתונים נשמרים לפי projectId.
  */
 
+import { useMutation, useQuery } from "convex/react";
+import { ChevronDown, Pencil, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { EditArrangementModal } from "@/components/EditArrangementModal";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
-import { Button } from "@/components/ui/button";
-import { ChevronDown, Pencil, Trash2 } from "lucide-react";
-import { EditArrangementModal } from "@/components/EditArrangementModal";
-import { Label } from "@/components/ui/label";
 
-const ARRANGEMENT_OPTIONS = [
-  "הריסה",
-  "חפירה ודיפון",
-  "בנייה",
-  "חסימה הרמטית",
-  "חסימת נתיב",
-];
+const ARRANGEMENT_OPTIONS = ["הריסה", "חפירה ודיפון", "בנייה", "חסימה הרמטית", "חסימת נתיב"];
 
 /** הסדרים שבהם מוצג צ'ק-ליסט השאלות (שערים, פריקה וטעינה, רדיוסים) */
 const CHECKLIST_ARRANGEMENT_TYPES = ["הריסה", "חפירה ודיפון", "בנייה"] as const;
@@ -50,7 +44,7 @@ const CHECKLIST_CATEGORIES: ChecklistCategory[] = [
       { key: "unload_1", text: "באיזה חזית נדרש פריקה וטעינה?" },
       { key: "unload_2", text: "האם יש צורך במספר פריקות וטעינות?" },
       { key: "unload_3", text: "האם האורך מספיק?" },
-      { key: "unload_4", text: "האם יש עמודי חשמל בצמוד לפ\"ט?" },
+      { key: "unload_4", text: 'האם יש עמודי חשמל בצמוד לפ"ט?' },
       { key: "unload_5", text: "האם רוחב הכביש מספיק?" },
       { key: "unload_6", text: "האם נדרש לכל השלבים?" },
       { key: "unload_7", text: "האם יש מכשולים בצמוד לפריקה וטעינה כמו עצים?" },
@@ -91,7 +85,7 @@ const CHECKLIST_CATEGORIES_BLOCKAGE_HERMETIC: ChecklistCategory[] = [
   {
     title: "יציקת רפסודה",
     questions: [
-      { key: "block_raft_1", text: "כמה קו\"ב יוצקים?" },
+      { key: "block_raft_1", text: 'כמה קו"ב יוצקים?' },
       { key: "block_raft_2", text: "כמה מיקסרים צפויים להגיע?" },
       { key: "block_raft_3", text: "מאיפה הכלים מגיעים?" },
       { key: "block_raft_4", text: "האם הכלים מצליחים לעבור ברחובות הסמוכים?" },
@@ -124,7 +118,7 @@ const CHECKLIST_CATEGORIES_BLOCKAGE_PATH: ChecklistCategory[] = [
   {
     title: "יציקת רפסודה",
     questions: [
-      { key: "block_raft_1", text: "כמה קו\"ב יוצקים?" },
+      { key: "block_raft_1", text: 'כמה קו"ב יוצקים?' },
       { key: "block_raft_2", text: "כמה מיקסרים צפויים להגיע?" },
       { key: "block_raft_3", text: "מאיפה הכלים מגיעים?" },
       { key: "block_raft_4", text: "האם הכלים מצליחים לעבור ברחובות הסמוכים?" },
@@ -281,7 +275,9 @@ function ArrangementChecklist({
             className="rounded-2xl border-2 border-black bg-transparent text-black font-medium px-5 py-2.5 hover:bg-black/5"
             aria-label="העתק תשובות מההסדר הקודם"
           >
-            {copying ? "מעתיק..." : `העתק תשובות מההסדר הקודם${previousArrangementType ? ` (${previousArrangementType})` : ""}`}
+            {copying
+              ? "מעתיק..."
+              : `העתק תשובות מההסדר הקודם${previousArrangementType ? ` (${previousArrangementType})` : ""}`}
           </Button>
         </div>
       )}
@@ -306,9 +302,7 @@ function ArrangementChecklist({
                 <textarea
                   id={`checklist-${q.key}`}
                   value={getValue(q.key)}
-                  onChange={(e) =>
-                    setLocalValues((prev) => ({ ...prev, [q.key]: e.target.value }))
-                  }
+                  onChange={(e) => setLocalValues((prev) => ({ ...prev, [q.key]: e.target.value }))}
                   onBlur={(e) => handleBlur(q.key, e.target.value.trim())}
                   placeholder="הזן תשובה..."
                   rows={2}
@@ -336,7 +330,8 @@ export function ProjectArrangementsContent({ projectId }: ProjectArrangementsCon
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isEditingMode, setIsEditingMode] = useState(false);
   const [editingId, setEditingId] = useState<Id<"projectArrangements"> | null>(null);
-  const [selectedArrangementId, setSelectedArrangementId] = useState<Id<"projectArrangements"> | null>(null);
+  const [selectedArrangementId, setSelectedArrangementId] =
+    useState<Id<"projectArrangements"> | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const updateNotesMutation = useMutation(api.projectArrangements.updateNotes);
@@ -380,10 +375,7 @@ export function ProjectArrangementsContent({ projectId }: ProjectArrangementsCon
         {arrangements && arrangements.length > 0 && (
           <>
             {arrangements.map((arr) => (
-              <div
-                key={arr._id}
-                className="group relative shrink-0"
-              >
+              <div key={arr._id} className="group relative shrink-0">
                 {/* כפתור ההסדר – טקסט ממורכז, רוחב לפי התוכן */}
                 <div
                   role="button"
@@ -404,9 +396,11 @@ export function ProjectArrangementsContent({ projectId }: ProjectArrangementsCon
                 {/* כפתורי עריכה ומחיקה – מופיעים רק במצב עריכת הסדרים */}
                 <div
                   className={`absolute top-0 end-0 -translate-y-1/2 translate-x-1/2 z-10 flex items-center gap-0.5 transition-opacity ${
-                    isEditingMode ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+                    isEditingMode
+                      ? "opacity-100 pointer-events-auto"
+                      : "opacity-0 pointer-events-none"
                   }`}
-                  aria-hidden
+                  aria-hidden={true}
                 >
                   <button
                     type="button"
@@ -417,19 +411,21 @@ export function ProjectArrangementsContent({ projectId }: ProjectArrangementsCon
                     className="p-1.5 rounded-lg border-2 border-black bg-[#FFFDF7] shadow hover:bg-black/10 text-black"
                     aria-label="ערוך כותרת ההסדר"
                   >
-                    <Pencil className="w-4 h-4" aria-hidden />
+                    <Pencil className="w-4 h-4" aria-hidden={true} />
                   </button>
                   <button
                     type="button"
                     onClick={async (e) => {
                       e.stopPropagation();
-                      const confirmed = typeof window !== "undefined" && window.confirm(`האם למחוק את ההסדר "${arr.type}"?`);
+                      const confirmed =
+                        typeof window !== "undefined" &&
+                        window.confirm(`האם למחוק את ההסדר "${arr.type}"?`);
                       if (confirmed) await removeArrangement({ id: arr._id });
                     }}
                     className="p-1.5 rounded-lg border-2 border-black bg-[#FFFDF7] shadow hover:bg-red-50 text-red-700"
                     aria-label="מחק הסדר"
                   >
-                    <Trash2 className="w-4 h-4" aria-hidden />
+                    <Trash2 className="w-4 h-4" aria-hidden={true} />
                   </button>
                 </div>
               </div>
@@ -449,7 +445,7 @@ export function ProjectArrangementsContent({ projectId }: ProjectArrangementsCon
             aria-label="הוסף הסדר לפרויקט"
           >
             הוסף הסדר
-            <ChevronDown className="w-4 h-4" aria-hidden />
+            <ChevronDown className="w-4 h-4" aria-hidden={true} />
           </Button>
           {dropdownOpen && (
             <div
@@ -500,8 +496,7 @@ export function ProjectArrangementsContent({ projectId }: ProjectArrangementsCon
                   : null;
             if (!categories) return null;
             const selectedIndex = arrangements.findIndex((a) => a._id === selectedArrangementId);
-            const previousArr =
-              selectedIndex > 0 ? arrangements[selectedIndex - 1] : null;
+            const previousArr = selectedIndex > 0 ? arrangements[selectedIndex - 1] : null;
             return (
               <ArrangementChecklist
                 arrangementId={selectedArrangementId}
@@ -518,11 +513,9 @@ export function ProjectArrangementsContent({ projectId }: ProjectArrangementsCon
         arrangementId={editingId}
         currentLabel={
           editingId && arrangements
-            ? (
-                arrangements.find((a) => a._id === editingId)?.label ??
-                arrangements.find((a) => a._id === editingId)?.type ??
-                ""
-              )
+            ? (arrangements.find((a) => a._id === editingId)?.label ??
+              arrangements.find((a) => a._id === editingId)?.type ??
+              "")
             : ""
         }
         open={editingId !== null}

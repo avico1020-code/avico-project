@@ -1,18 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import type { Id } from "@/convex/_generated/dataModel";
 import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 
 const cream = "#FFFDF7";
 const btnClass =
@@ -88,7 +83,7 @@ export function AddLinkModal({ projectId, open, onOpenChange }: AddLinkModalProp
               className="rounded-2xl border-2 border-black bg-transparent text-black"
               placeholder="https://..."
               dir="ltr"
-              required
+              required={true}
             />
           </div>
           {error && (

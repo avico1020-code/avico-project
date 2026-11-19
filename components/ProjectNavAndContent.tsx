@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import type { Id } from "@/convex/_generated/dataModel";
 import { ProjectArrangementsContent } from "@/components/ProjectArrangementsContent";
 import { ProjectContactsContent } from "@/components/ProjectContactsContent";
 import { ProjectJournalContent } from "@/components/ProjectJournalContent";
+import type { Id } from "@/convex/_generated/dataModel";
 
 const cream = "#FFFDF7";
 const btnClass =

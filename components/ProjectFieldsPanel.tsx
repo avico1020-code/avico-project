@@ -1,9 +1,9 @@
 "use client";
 
 import { useQuery } from "convex/react";
+import { ProjectFieldRow } from "@/components/ProjectFieldRow";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
-import { ProjectFieldRow } from "@/components/ProjectFieldRow";
 
 const cream = "#FFFDF7";
 

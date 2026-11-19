@@ -10,8 +10,7 @@ export default defineSchema({
     description: v.optional(v.string()),
     clerkId: v.string(),
     createdAt: v.number(),
-  })
-    .index("by_clerk_id", ["clerkId"]),
+  }).index("by_clerk_id", ["clerkId"]),
 
   projectLinks: defineTable({
     projectId: v.id("projects"),
@@ -19,8 +18,7 @@ export default defineSchema({
     url: v.string(),
     clerkId: v.string(),
     createdAt: v.number(),
-  })
-    .index("by_project_id", ["projectId"]),
+  }).index("by_project_id", ["projectId"]),
 
   projectContacts: defineTable({
     projectId: v.id("projects"),
@@ -77,6 +75,16 @@ export default defineSchema({
   })
     .index("by_clerk_id", ["clerkId"])
     .index("by_clerk_project", ["clerkId", "projectId"]),
+
+  notebookTasks: defineTable({
+    name: v.string(),
+    description: v.string(),
+    status: v.optional(v.string()),
+    clerkId: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_clerk_id", ["clerkId"])
+    .index("by_clerk_created", ["clerkId", "createdAt"]),
 
   users: defineTable({
     clerkId: v.string(),

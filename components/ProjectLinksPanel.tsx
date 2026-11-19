@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useQuery } from "convex/react";
+import { useState } from "react";
+import { AddLinkModal } from "@/components/AddLinkModal";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
-import { AddLinkModal } from "@/components/AddLinkModal";
 
 const cream = "#FFFDF7";
 const btnClass =
@@ -24,15 +24,9 @@ export function ProjectLinksPanel({ projectId }: ProjectLinksPanelProps) {
       style={{ backgroundColor: cream }}
       aria-label="קישורים חיצוניים"
     >
-      <h2 className="text-xl font-semibold text-black text-center shrink-0">
-        קישורים חיצוניים
-      </h2>
+      <h2 className="text-xl font-semibold text-black text-center shrink-0">קישורים חיצוניים</h2>
       <div className="flex flex-row flex-wrap items-center gap-2 justify-end">
-        <button
-          type="button"
-          onClick={() => setAddLinkOpen(true)}
-          className={btnClass}
-        >
+        <button type="button" onClick={() => setAddLinkOpen(true)} className={btnClass}>
           הוסף קישור
         </button>
         {links?.map((link) => (
@@ -47,11 +41,7 @@ export function ProjectLinksPanel({ projectId }: ProjectLinksPanelProps) {
           </a>
         ))}
       </div>
-      <AddLinkModal
-        projectId={projectId}
-        open={addLinkOpen}
-        onOpenChange={setAddLinkOpen}
-      />
+      <AddLinkModal projectId={projectId} open={addLinkOpen} onOpenChange={setAddLinkOpen} />
     </aside>
   );
 }

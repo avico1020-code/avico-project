@@ -1,12 +1,12 @@
-import { TopBar } from "@/components/TopBar";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import { ProjectDetails } from "@/components/ProjectDetails";
 import { ProjectFieldsPanel } from "@/components/ProjectFieldsPanel";
 import { ProjectLinksPanel } from "@/components/ProjectLinksPanel";
 import { ProjectNavAndContent } from "@/components/ProjectNavAndContent";
 import { ProjectSidePanel } from "@/components/ProjectSidePanel";
+import { TopBar } from "@/components/TopBar";
 import type { Id } from "@/convex/_generated/dataModel";
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 
 const cream = "#FFFDF7";
 
@@ -32,10 +32,7 @@ export default async function ProjectPage(props: ProjectPageProps) {
   const projectId = rawId as Id<"projects">;
 
   return (
-    <div
-      className="min-h-screen p-8"
-      style={{ backgroundColor: cream }}
-    >
+    <div className="min-h-screen p-8" style={{ backgroundColor: cream }}>
       <TopBar />
       <ProjectDetails projectId={projectId} />
       <ProjectNavAndContent projectId={projectId} />

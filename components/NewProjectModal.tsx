@@ -1,17 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { api } from "@/convex/_generated/api";
 
 const cream = "#FFFDF7";
 const btnClass =
@@ -80,7 +75,7 @@ export function NewProjectModal({ open, onOpenChange }: NewProjectModalProps) {
               onChange={(e) => setName(e.target.value)}
               className="rounded-2xl border-2 border-black bg-transparent text-black"
               placeholder="שם הפרויקט"
-              required
+              required={true}
               dir="rtl"
             />
           </div>
@@ -128,11 +123,7 @@ export function NewProjectModal({ open, onOpenChange }: NewProjectModalProps) {
               {error}
             </p>
           )}
-          <Button
-            type="submit"
-            disabled={saving}
-            className={btnClass}
-          >
+          <Button type="submit" disabled={saving} className={btnClass}>
             {saving ? "שומר..." : "שמור"}
           </Button>
         </form>

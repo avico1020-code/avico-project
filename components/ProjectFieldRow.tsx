@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import type { Id } from "@/convex/_generated/dataModel";
 import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Save } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 
 type FieldKey = "coordinationNumber" | "planNumber" | "quoteNumber";
 
@@ -20,7 +20,12 @@ interface ProjectFieldRowProps {
   initialValue?: string;
 }
 
-export function ProjectFieldRow({ projectId, label, fieldKey, initialValue }: ProjectFieldRowProps) {
+export function ProjectFieldRow({
+  projectId,
+  label,
+  fieldKey,
+  initialValue,
+}: ProjectFieldRowProps) {
   const [value, setValue] = useState(initialValue ?? "");
   const [lastSaved, setLastSaved] = useState(initialValue ?? "");
   const [saving, setSaving] = useState(false);
@@ -69,7 +74,7 @@ export function ProjectFieldRow({ projectId, label, fieldKey, initialValue }: Pr
             : "bg-gray-300 hover:bg-gray-400 text-black"
         }`}
       >
-        <Save className="w-4 h-4" aria-hidden />
+        <Save className="w-4 h-4" aria-hidden={true} />
         <span className="sr-only">שמור</span>
       </Button>
       {error && (
@@ -80,4 +85,3 @@ export function ProjectFieldRow({ projectId, label, fieldKey, initialValue }: Pr
     </div>
   );
 }
-

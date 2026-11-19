@@ -11,11 +11,7 @@ export function NewProjectTrigger() {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className={btnClass}
-      >
+      <button type="button" onClick={() => setOpen(true)} className={btnClass}>
         פרויקט חדש
       </button>
       <NewProjectModal open={open} onOpenChange={setOpen} />

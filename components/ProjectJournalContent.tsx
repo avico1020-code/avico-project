@@ -1,12 +1,12 @@
 "use client";
 
+import { useMutation, useQuery } from "convex/react";
+import { Pencil, Trash2 } from "lucide-react";
 import { useCallback, useState } from "react";
-import { useQuery, useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import type { Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Pencil, Trash2 } from "lucide-react";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 
 function formatEntryDate(ts: number): string {
   return new Date(ts).toLocaleDateString("he-IL", {
@@ -110,10 +110,7 @@ export function ProjectJournalContent({ projectId }: ProjectJournalContentProps)
 
       {/* רשימת ההערות – מהחדש לישן: תאריך : מלל; עריכה ומחיקה */}
       {entries && entries.length > 0 && (
-        <section
-          className="w-full flex flex-col gap-4"
-          aria-label="הערות יומן"
-        >
+        <section className="w-full flex flex-col gap-4" aria-label="הערות יומן">
           {entries.map((entry) => (
             <div
               key={entry._id}
@@ -173,7 +170,7 @@ export function ProjectJournalContent({ projectId }: ProjectJournalContentProps)
                         className="rounded-lg border border-black/30 hover:bg-black/10 text-black h-8 w-8"
                         aria-label="ערוך רשומה"
                       >
-                        <Pencil className="h-4 w-4" aria-hidden />
+                        <Pencil className="h-4 w-4" aria-hidden={true} />
                       </Button>
                       <Button
                         type="button"
@@ -183,7 +180,7 @@ export function ProjectJournalContent({ projectId }: ProjectJournalContentProps)
                         className="rounded-lg border border-black/30 hover:bg-red-50 text-red-700 h-8 w-8"
                         aria-label="מחק רשומה"
                       >
-                        <Trash2 className="h-4 w-4" aria-hidden />
+                        <Trash2 className="h-4 w-4" aria-hidden={true} />
                       </Button>
                     </div>
                   </div>

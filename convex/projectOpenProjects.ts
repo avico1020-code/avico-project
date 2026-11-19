@@ -65,4 +65,3 @@ export const remove = mutation({
     await ctx.db.delete(existing._id);
   },
 });
-

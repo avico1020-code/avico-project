@@ -1,16 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import type { Id } from "@/convex/_generated/dataModel";
 import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 
 const cream = "#FFFDF7";
 const btnClass =
@@ -66,9 +61,7 @@ export function EditArrangementModal({
           <DialogTitle className="text-xl font-semibold text-black text-center">
             ערוך כותרת ההסדר
           </DialogTitle>
-          <p className="text-black/70 text-sm text-center">
-            שינוי הכותרת לא משפיע על תוכן ההסדר
-          </p>
+          <p className="text-black/70 text-sm text-center">שינוי הכותרת לא משפיע על תוכן ההסדר</p>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <label className="flex flex-col gap-2 text-right">
